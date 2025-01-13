@@ -21,7 +21,7 @@ import {
   feedbackSliceActions,
   feedbackSliceSelectors,
 } from "../../store/redux/feedback/feedbackSlice"
-import { redirect } from "react-router-dom"
+
 import CustomIcon from "../CustomIcon/CustomIcon"
 
 function Feedback() {
@@ -34,11 +34,9 @@ function Feedback() {
   console.log(dislikes)
 
   const addLike = () => {
-    //13. Диспатчить экшен (индентификатор действия), который вызовет соответствующий редьюсер
     dispatch(feedbackSliceActions.likes())
   }
   const addDislike = () => {
-    //13. Диспатчить экшен (индентификатор действия), который вызовет соответствующий редьюсер
     dispatch(feedbackSliceActions.dislikes())
   }
   const resetResults = () => {
@@ -48,9 +46,9 @@ function Feedback() {
   return (
     <FeedbackContainer>
       <ResetContainer>
-      <StyledButton onClick={resetResults}>
-        <CustomIcon icon={RestartAltIcon} />
-      </StyledButton>
+        <StyledButton onClick={resetResults}>
+          <CustomIcon icon={RestartAltIcon} />
+        </StyledButton>
       </ResetContainer>
       <ImgWrapper>
         <StyledImg src={FeedbackImg} />
