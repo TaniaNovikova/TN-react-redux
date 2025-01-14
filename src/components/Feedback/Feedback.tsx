@@ -34,10 +34,10 @@ function Feedback() {
   console.log(dislikes)
 
   const addLike = () => {
-    dispatch(feedbackSliceActions.likes())
+    dispatch(feedbackSliceActions.addLike())
   }
   const addDislike = () => {
-    dispatch(feedbackSliceActions.dislikes())
+    dispatch(feedbackSliceActions.addDislike())
   }
   const resetResults = () => {
     dispatch(feedbackSliceActions.resetLikes())
