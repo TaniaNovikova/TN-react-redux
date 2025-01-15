@@ -8,6 +8,7 @@ import Users from "./pages/UsersApp/Users/Users"
 
 //homeworks
 import Homework16 from "./homeworks/Homework16.tsx/Homework16"
+import Lesson17 from "./lessons/Lesson17/Lesson17"
 
 //consultations
 // import Consultation08 from "./consultations/Consultation08/Consultation08"
@@ -27,7 +28,8 @@ const App = () => {
           <Route path='*' element='Page not found'/>
         </Routes>
       </Layout> */}
-      <Homework16/>
+      {/* <Homework16/> */}
+      <Lesson17/>
     </BrowserRouter>
   )
 }
