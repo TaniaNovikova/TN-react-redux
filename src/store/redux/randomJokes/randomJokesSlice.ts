@@ -1,16 +1,17 @@
-import axios from "axios";
+import axios from "axios"
 
-import { createAppSlice } from "../../createAppSlice";
-import { RandomJokesSliceState } from "./types";
+import { createAppSlice } from "../../createAppSlice"
+import { jokeData, RandomJokesSliceState } from "./types"
+import { PayloadAction } from "@reduxjs/toolkit/react"
 
 const randomJokesInitialState: RandomJokesSliceState = {
   data: [],
   error: undefined,
-  status: 'default'
+  status: "default",
 }
 
 export const randomJokesSlice = createAppSlice({
-  name: 'RANDOM_JOKES',
+  name: "RANDOM_JOKES",
   initialState: randomJokesInitialState,
   // 1. middleware создаем в объекте reducers вместе с обычными редьюсерами
   reducers: create => ({
@@ -25,9 +26,13 @@ export const randomJokesSlice = createAppSlice({
       //2-й - thunkApi, объект, который содержит вспомогательные функции для работы с асинхронными функциями
       async (arg, thunkApi) => {
         try {
-          const result = await axios.get('https://official-joke-api.appspot.com/random_joke');
+          const result = await axios.get(
+            "https://official-joke-api.appspot.com/random_joke",
+          )
           // 3. В случае успешного завершения запроса, возвращаем полученные данные, для того,
           // чтобы получить их в обработчике fulfilled
+          console.log(result.data.id)
+
           return result.data
         } catch (error) {
           //4. В случае ошибки, отправляем её в обработчик rejected c помощью метода rejectWithValue из thunkApi
@@ -37,26 +42,35 @@ export const randomJokesSlice = createAppSlice({
       {
         //5.Обрабатываем событие ожидания ответа
         pending: (state: RandomJokesSliceState) => {
-          state.status = 'loading'
+          state.status = "loading"
           state.error = undefined
         },
         //6. Обработка успешного результата
         fulfilled: (state: RandomJokesSliceState, action: any) => {
-          state.status = 'success'
+          state.status = "success"
           state.data = [...state.data, action.payload]
         },
         //7. Обработка ошибки
         rejected: (state: RandomJokesSliceState, action: any) => {
-          state.status = 'error'
+          state.status = "error"
           state.error = action.payload
-        }
-      }),
-    deleteAllJokes: create.reducer(() => randomJokesInitialState)
+        },
+      },
+    ),
+    deleteJoke: create.reducer(
+      (state: RandomJokesSliceState, action: PayloadAction<string>) => {
+        console.log(action.payload)
+        state.data = state.data.filter((joke: jokeData) => {
+          return joke.id !== action.payload
+        })
+      },
+    ),
+    deleteAllJokes: create.reducer(() => randomJokesInitialState),
   }),
   selectors: {
-    jokeData: (state: RandomJokesSliceState) => state
-  }
+    jokeData: (state: RandomJokesSliceState) => state,
+  },
 })
 
-export const randomJokesSliceActions = randomJokesSlice.actions;
-export const randomJokesSliceSelectors = randomJokesSlice.selectors;
+export const randomJokesSliceActions = randomJokesSlice.actions
+export const randomJokesSliceSelectors = randomJokesSlice.selectors
