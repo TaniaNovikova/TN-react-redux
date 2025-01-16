@@ -13,19 +13,9 @@ import { v4 } from "uuid"
 import { jokeData } from "../../store/redux/randomJokes/types"
 import { Button, List, ListItem, IconButton } from "@mui/material"
 import DeleteIcon from "@mui/icons-material/Delete"
-import { css } from "@emotion/react"
 import GoogleLoader from "../GoogleLoader/GoogleLoader"
 
-const styles = {
-  listItem: css`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  `,
-  deleteButton: css`
-    color: red;
-  `,
-}
+
 
 function RandomJokesMui() {
   const dispatch = useAppDispatch()
@@ -73,9 +63,9 @@ function RandomJokesMui() {
 
         <Button
           variant="contained"
-          color="error" // Красный цвет
+          color="error" 
           onClick={deleteJokes}
-          startIcon={<DeleteIcon />} // Красная иконка
+          startIcon={<DeleteIcon />} 
         >
           DELETE ALL JOKES
         </Button>
