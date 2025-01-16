@@ -1,10 +1,8 @@
-import Button from "../Button/Button"
-import Spinner from "../Spinner/Spinner"
 import {
   JokeCard,
-  JokesContainer,
   RandomJokesWrapper,
   JokeText,
+  LoaderWrapper,
 } from "./styles"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import {
@@ -13,8 +11,13 @@ import {
 } from "../../store/redux/randomJokes/randomJokesSlice"
 import { v4 } from "uuid"
 import { jokeData } from "../../store/redux/randomJokes/types"
+import { Button, List, ListItem, IconButton } from "@mui/material"
+import DeleteIcon from "@mui/icons-material/Delete"
+import GoogleLoader from "../GoogleLoader/GoogleLoader"
 
-function RandomJokes() {
+
+
+function RandomJokesMui() {
   const dispatch = useAppDispatch()
   const { data, error, status } = useAppSelector(
     randomJokesSliceSelectors.jokeData,
@@ -36,23 +39,39 @@ function RandomJokes() {
     }
 
     return (
-      <div key={v4()}>
+      <ListItem key={v4()}>
+        <IconButton color="error" onClick={deleteJoke}>
+          <DeleteIcon />
+        </IconButton>
         <JokeText>{`${index + 1}. ${randomJoke.setup}-${randomJoke.punchline}`}</JokeText>
-        <button onClick={deleteJoke}>Delete joke</button>
-      </div>
+      </ListItem>
     )
   })
-  
+
   return (
     <RandomJokesWrapper>
       <JokeCard>
-        <Button name="GET JOKES" onClick={getJoke} />
-        {status === "loading" && <Spinner />}
-        <JokesContainer>{randomJokes}</JokesContainer>
-        <Button name="DELETE JOKES" onClick={deleteJokes} />
+        <LoaderWrapper>
+          {status !== "loading" && (
+            <Button variant="contained" onClick={getJoke}>
+              GET JOKES
+            </Button>
+          )}
+          {status === "loading" && <GoogleLoader />}
+        </LoaderWrapper>
+        <List>{randomJokes}</List>
+
+        <Button
+          variant="contained"
+          color="error" 
+          onClick={deleteJokes}
+          startIcon={<DeleteIcon />} 
+        >
+          DELETE ALL JOKES
+        </Button>
       </JokeCard>
     </RandomJokesWrapper>
   )
 }
 
-export default RandomJokes
+export default RandomJokesMui
